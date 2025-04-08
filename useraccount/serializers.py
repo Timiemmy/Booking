@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, HyperlinkedIdentityField, SerializerMethodField
-from .models import User, Address
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from .models import CustomUser, Address
 
 
 class AddressSerializer(ModelSerializer):
@@ -13,7 +13,7 @@ class AddressSerializer(ModelSerializer):
 class UserSerializer(ModelSerializer):
     address = SerializerMethodField()
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone', 'is_driver', 
                   'date_joined', 'is_active', 'address']
         read_only_fields = ['id', 'date_joined']

@@ -1,21 +1,21 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import User, Address
+from .models import CustomUser, Address
 from .serializers import UserSerializer, AddressSerializer
 
 
 class UserView(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
 
 class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
 
 
 class UserDetailView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
     def get_address(self, obj):
@@ -28,7 +28,7 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
 
 
 class UserDeleteView(generics.RetrieveDestroyAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
 
