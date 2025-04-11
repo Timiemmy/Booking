@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import CustomUser, Address
 from .serializers import UserSerializer, AddressSerializer
 
@@ -8,7 +8,7 @@ from .serializers import UserSerializer, AddressSerializer
 
 class UserView(generics.ListAPIView):
     authentication_classes = [SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminUser]
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 

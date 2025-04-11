@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_rr!5(lqewpkz85*pq7=_-bgw$hj2p--7#ivqy*kk%xrxs4%5@'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -67,6 +67,7 @@ THIRD_PARTY_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'dj_rest_auth',
+    'django_filters',
 
     'allauth',
     'allauth.account',
@@ -174,7 +175,13 @@ AUTH_USER_MODEL = 'useraccount.CustomUser'  # Custom user model
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }
 
 # djangorestframework-simplejwt
@@ -188,13 +195,14 @@ REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,  # Makes sure refresh token is sent
     'LOGOUT_ON_PASSWORD_CHANGE': True,
+    'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
 }
 
 # Allauth config
 ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password*']
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Do not require email confirmation
+ACCOUNT_EMAIL_VERIFICATION = "optional"  
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
 ACCOUNT_EMAIL_NOTIFICATIONS = True
 
@@ -205,9 +213,31 @@ ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = LOGIN_URL
 
 
 # Django SMTP
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = os.getenv("EMAIL_PORT")
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # email sending address
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_HOST = os.getenv("EMAIL_HOST")
+# EMAIL_PORT = os.getenv("EMAIL_PORT")
+# EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+# EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # email sending address
+# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'dj_rest_auth': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}

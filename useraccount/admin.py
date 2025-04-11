@@ -22,6 +22,21 @@ class CustomUserAdmin(BaseUserAdmin, ModelAdmin):
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
 
+    # Specify which fields should be editable
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name',
+         'email', 'phone', 'emergency_contact', 'profile_image')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_driver',
+         'is_two_factor_enabled', 'phone_verified', 'groups', 'user_permissions')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2'),
+        }),
+    )
+
 
 @admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
