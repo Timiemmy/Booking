@@ -10,12 +10,12 @@ class AddressSerializer(ModelSerializer):
         fields = ['id', 'user', 'user_name', 'street', 'city', 'state', 'zip_code', 'country']
         read_only_fields = ['id', 'user']
 
-class UserSerializer(ModelSerializer):
+class CustomUserSerializer(ModelSerializer):
     address = SerializerMethodField()
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone', 'is_driver', 
-                  'date_joined', 'is_active', 'address']
+                  'date_joined', 'is_active', 'is_two_factor_enabled', 'phone_verified','is_staff', 'address']
         read_only_fields = ['id', 'date_joined']
 
 

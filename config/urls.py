@@ -27,4 +27,6 @@ urlpatterns = [
     path('auth/registration/', include('dj_rest_auth.registration.urls')),
     path('users/', include('useraccount.urls', namespace='useraccount')),
     path('vehicles/', include('vehicle.urls', namespace='vehicle')),
+    path('drivers/', include('driver.urls', namespace='driver')),
+    path('bookings/', include('booking.urls', namespace='booking')),
 ]

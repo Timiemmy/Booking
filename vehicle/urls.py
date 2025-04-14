@@ -17,7 +17,6 @@ urlpatterns = [
 
     # Vehicle URLs
     path('', VehicleList.as_view(), name='vehicle-list'),
-    #path('create/', VehicleCreate.as_view(), name='vehicle-create'),
     path('<int:pk>/', VehicleDetail.as_view(), name='vehicle-detail'),
     path('<int:pk>/update/',
          VehicleUpdate.as_view(), name='vehicle-update'),
@@ -25,9 +24,9 @@ urlpatterns = [
          VehicleDelete.as_view(), name='vehicle-delete'),
 
     # Combined endpoint for vehicle and images
-    path('vehicle-images/', VehicleCreateWithImages.as_view(),
+    path('create', VehicleCreateWithImages.as_view(),
          name='vehicle-create-with-images'),
-    path('<int:pk>/update-with-images/',
+    path('<int:pk>/update/',
          VehicleUpdateWithImages.as_view(), name='vehicle-update-with-images'),
 
     # Amenity URLs

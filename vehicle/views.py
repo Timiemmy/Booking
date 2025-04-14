@@ -64,6 +64,20 @@ class VehicleList(generics.ListAPIView):
         if vehicle_type:
             queryset = queryset.filter(category__id=vehicle_type)
 
+        vehicle_driver = self.request.query_params.get('vehicle_driver')
+        if vehicle_driver:
+            queryset = queryset.filter(drivers__user__id=vehicle_driver)
+
+        return queryset
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Filter by vehicle type if specified
+        vehicle_driver = self.request.query_params.get('vehicle_driver')
+        if vehicle_driver:
+            queryset = queryset.filter(category__id=vehicle_driver)
+
         return queryset
 
 

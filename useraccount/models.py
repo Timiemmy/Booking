@@ -17,6 +17,7 @@ class CustomUser(AbstractUser):
     is_driver = models.BooleanField(default=False)
     is_two_factor_enabled = models.BooleanField(default=False)
     phone_verified = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'User'

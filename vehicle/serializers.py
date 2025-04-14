@@ -39,6 +39,8 @@ class VehicleSerializer(serializers.ModelSerializer):
     category = VehicleTypeSerializer(many=True, read_only=True)
     amenities = AmenitySerializer(many=True, read_only=True)
     images = VehicleImageSerializer(many=True, read_only=True)
+    driver_name = serializers.SerializerMethodField()
+    driver_email = serializers.SerializerMethodField()
     # locations = VehicleLocationSerializer(many=True, read_only=True)
 
     # For write operations
@@ -64,6 +66,19 @@ class VehicleSerializer(serializers.ModelSerializer):
             # Hide VIN in read operations for security
             'vin': {'write_only': True}
         }
+
+    def get_driver_name(self, obj):
+            # Use the related_name 'drivers' to get the driver
+        driver = getattr(obj, 'drivers', None)
+        if driver:
+            return driver.user.get_full_name()
+        return None
+
+    def get_driver_email(self, obj):
+        driver = getattr(obj, 'drivers', None)
+        if driver:
+            return driver.user.email
+        return None
 
 
 class VehicleCreateSerializer(VehicleSerializer):

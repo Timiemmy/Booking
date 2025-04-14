@@ -6,15 +6,15 @@ from vehicle.models import Vehicle
 class Driver(models.Model):
     user = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name='driver_profile')
-    vehicle = models.OneToOneField(Vehicle, on_delete=models.CASCADE, related_name='drivers', null=True, blank=True)
+    vehicle = models.OneToOneField(Vehicle, on_delete=models.CASCADE, related_name='drivers')
     license_number = models.CharField(max_length=50, unique=True)
     license_expiry_date = models.DateField()
-    rating = models.FloatField()
+    rating = models.FloatField(null=True, blank=True)
     is_available = models.BooleanField(default=True)
 
     total_trips = models.PositiveIntegerField(default=0)
     driver_license_image = models.ImageField(
-        upload_to='drivers_licenses/', null=True, blank=True)
+        upload_to='drivers_licenses/')
     #current_location = models.PointField(null=True, blank=True)
 
     class Meta:

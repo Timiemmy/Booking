@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import CustomUser, Address
-from .serializers import UserSerializer, AddressSerializer
+from .serializers import CustomUserSerializer, AddressSerializer
 
 
 
@@ -10,17 +10,17 @@ class UserView(generics.ListAPIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated, IsAdminUser]
     queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
 
 
 class CreateUserView(generics.CreateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
 
 
 class UserDetailView(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
 
     def get_address(self, obj):
         try:
@@ -33,7 +33,7 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
 
 class UserDeleteView(generics.RetrieveDestroyAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
 
 
 class AddressCreateView(generics.CreateAPIView):
