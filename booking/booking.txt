@@ -1,0 +1,13 @@
+What should be added.
+
+In booking workflow, it should:
+check if car is available at that time and date, then move to checking if car capacity isn't full.
+then make booking but pending payment, then redirect to payment page. When payment is made, then change booking status to successful.
+Then send message on email to confirm booking which will include all booking details.
+If failed also, send failed message.
+For each booking, reduce the capacity of the car.
+
+
+On the admin side. The admin will scan or input the booking code. WHen the input or scan is successful, user is marked checked in.
+and when user get to destination, admin scans the qr code or input the code again, then it first check the location if it
+thesame with destination of user. If it is same, it marks the check out, but if not same, it raise an error then alert the contact phone and the security contact.

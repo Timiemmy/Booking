@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .managers import CustomUserManager
 from django.conf import settings
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=30, unique=True)
+    username = None  # Remove username field
+    email = models.EmailField(unique=True)  # Make email the unique identifier
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     profile_image = models.ImageField(
@@ -18,6 +19,12 @@ class CustomUser(AbstractUser):
     is_two_factor_enabled = models.BooleanField(default=False)
     phone_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'  # Set email as the authentication field
+    REQUIRED_FIELDS = ['first_name', 'last_name']  # Remove email from required fields
+
 
     class Meta:
         verbose_name = 'User'

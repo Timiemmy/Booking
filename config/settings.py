@@ -42,9 +42,10 @@ DJANGO_APPS = [
     "unfold.contrib.inlines",  # optional, if special inlines are needed
     "unfold.contrib.import_export",  # optional, if django-import-export package is used
     "unfold.contrib.guardian",  # optional, if django-guardian package is used
-    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+    # optional, if django-simple-history package is used
+    "unfold.contrib.simple_history",
 
-    
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,9 +57,13 @@ DJANGO_APPS = [
 
 CUSTOM_APPS = [
     'useraccount.apps.UseraccountConfig',
+    'adminuser.apps.AdminuserConfig',
+    'dispatcher.apps.DispatcherConfig',
+    'agent.apps.AgentConfig',
     'vehicle.apps.VehicleConfig',
     'driver.apps.DriverConfig',
     'booking.apps.BookingConfig',
+    'companylocation.apps.CompanyLocationConfig',
 
 ]
 
@@ -169,7 +174,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 AUTH_USER_MODEL = 'useraccount.CustomUser'  # Custom user model
 
 REST_FRAMEWORK = {
@@ -195,21 +199,28 @@ REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,  # Makes sure refresh token is sent
     'LOGOUT_ON_PASSWORD_CHANGE': True,
-    'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
+    'REGISTER_SERIALIZER': 'useraccount.serializers.CustomRegisterSerializer',
+    #'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
 }
 
+#   ACCOUNT_ADAPTER = 'your_app.adapters.CustomAccountAdapter'
+
+
 # Allauth config
-ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password*']
-ACCOUNT_EMAIL_VERIFICATION = "optional"  
+ACCOUNT_LOGIN_METHODS = ['email']
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password*']
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
 ACCOUNT_EMAIL_NOTIFICATIONS = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
-LOGIN_URL = '/auth/login/'
+
+LOGIN_URL = 'auth/login/'
 
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = LOGIN_URL
-
 
 
 # Django SMTP

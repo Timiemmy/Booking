@@ -29,4 +29,5 @@ urlpatterns = [
     path('vehicles/', include('vehicle.urls', namespace='vehicle')),
     path('drivers/', include('driver.urls', namespace='driver')),
     path('bookings/', include('booking.urls', namespace='booking')),
+    path('company/',include('companylocation.urls', namespace='company_location')),
 ]

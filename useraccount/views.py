@@ -1,9 +1,8 @@
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from .models import CustomUser, Address
-from .serializers import CustomUserSerializer, AddressSerializer
-
+from useraccount.models import CustomUser, Address
+from useraccount.serializers import CustomUserSerializer, AddressSerializer
 
 
 class UserView(generics.ListAPIView):
@@ -38,7 +37,7 @@ class UserDeleteView(generics.RetrieveDestroyAPIView):
 
 class AddressCreateView(generics.CreateAPIView):
     serializer_class = AddressSerializer
-    
+
     def perform_create(self, serializer):
         user_id = self.kwargs.get('pk')
         user = CustomUser.objects.get(pk=user_id)
